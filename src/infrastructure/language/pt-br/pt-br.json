@@ -1,0 +1,20 @@
+{
+  "global": {
+    "buttons": {},
+    "toast": {
+      "sucess": {},
+      "error": {}
+    },
+    "title": {},
+    "placeholders": {
+      "email": "E-mail",
+      "password": "Senha"
+    },
+    "actions": {},
+    "fieldErrors": {
+      "required": "Campo obrigatório",
+      "invalidEmail": "E-mail inválido"
+    },
+    "gender": {}
+  }
+}
