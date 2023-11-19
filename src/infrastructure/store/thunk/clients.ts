@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { cleanAsyncStorage, removeAuthToken } from '../../storage/appStorage';
+import AuthUtils from '../../utils/authUtils';
 import { resetAuthentication } from '../slice/authentication';
 
 export const logoutThunk = createAsyncThunk(
   'clientData/logout',
   (canRedirect: boolean, thunkApi) => {
     thunkApi.dispatch(resetAuthentication());
-    cleanAsyncStorage();
-    removeAuthToken();
+    AuthUtils.cleanAsyncStorage();
+    AuthUtils.removeAuthToken();
 
     if (canRedirect) {
       //navigate

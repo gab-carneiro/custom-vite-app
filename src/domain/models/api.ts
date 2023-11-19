@@ -8,6 +8,10 @@ export interface ApiParams {
 }
 
 interface ApiErrorResponse {
+  error: {
+    error: string;
+    sttatus: string;
+  };
   status: number;
   data?: {
     detail?: string;

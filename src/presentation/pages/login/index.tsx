@@ -1,6 +1,7 @@
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { useLazyGetAddressQuery } from '../../../data/endpoints/addressApi';
 import { InputType } from '../../../domain/enums/input';
 import CustomButton from '../../components/custom-button';
 import CustomForm from '../../components/custom-form';
@@ -8,6 +9,11 @@ import CustomInput from '../../components/custom-input';
 import CustomScreen from '../../components/custom-screen';
 
 interface LoginProps extends WithTranslation {}
+
+interface LoginData {
+  email: string;
+  password: string;
+}
 
 const Login: React.FC<LoginProps> = ({ t }) => {
   const schema = yup.object().shape({
@@ -18,10 +24,15 @@ const Login: React.FC<LoginProps> = ({ t }) => {
     password: yup.string().required(t('global.fieldErrors.required')),
   });
 
-  const handleSubmit = () => console.log('chama o submit');
+  const [getAdrress, { isFetching }] = useLazyGetAddressQuery();
+
+  const handleSubmit = async (data: unknown): Promise<void> => {
+    const loginData = data as LoginData;
+    await getAdrress(loginData.password);
+  };
 
   return (
-    <CustomScreen>
+    <CustomScreen screenTitle="Login">
       <CustomForm schema={schema} handleSubmit={handleSubmit}>
         <CustomInput
           inputName="email"
@@ -35,7 +46,7 @@ const Login: React.FC<LoginProps> = ({ t }) => {
           placeholder={t('global.placeholders.password')}
           type={InputType.TEXT}
         />
-        <CustomButton text="Entrar" />
+        <CustomButton text="Entrar" isLoading={isFetching} />
       </CustomForm>
     </CustomScreen>
   );

@@ -12,4 +12,4 @@ export const viaCepAddressApi = viaCepApi.injectEndpoints({
   }),
 });
 
-export const { useGetAddressQuery } = viaCepAddressApi;
+export const { useLazyGetAddressQuery } = viaCepAddressApi;

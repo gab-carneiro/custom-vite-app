@@ -1,6 +1,6 @@
 export const colors = {
-  primary: 'red',
-  secondary: 'blue',
+  grey: 'blue',
+  red: 'blue',
 };
 
 export default colors;

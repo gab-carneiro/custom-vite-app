@@ -12,7 +12,7 @@ interface CustomTextProps {
 }
 
 const CustomText = ({
-  colorName = 'primary',
+  colorName = 'grey',
   customTextStyle,
   fontSize = 14,
   text = '',

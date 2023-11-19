@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { api, viaCepApi } from '../../data/api/apiConfig';
 import authentication from './slice/authentication';
+import snackbar from './slice/snackbar';
 import tokenExpired from './slice/tokenExpired';
 
 export const reducer = combineReducers({
@@ -8,6 +9,7 @@ export const reducer = combineReducers({
   [viaCepApi.reducerPath]: viaCepApi.reducer,
   authentication,
   tokenExpired,
+  snackbar,
 });
 
 export const store = configureStore({

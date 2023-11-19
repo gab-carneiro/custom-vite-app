@@ -7,23 +7,24 @@ import {
 
 import { AuthorizationHeader, ContentTypeHeader } from '../../domain/enums/api';
 import { ApiResponse } from '../../domain/models/api';
-import { Token } from '../../domain/models/token';
 import {
-  getAuthToken,
-  setAuthToken,
-} from '../../infrastructure/storage/appStorage';
+  setOpenSnackbar,
+  setSnackbarSeverity,
+  setSnackbarText,
+} from '../../infrastructure/store/slice/snackbar';
 import { setTokenExpired } from '../../infrastructure/store/slice/tokenExpired';
 import { store } from '../../infrastructure/store/store';
 import { logoutThunk } from '../../infrastructure/store/thunk/clients';
+import AuthUtils from '../../infrastructure/utils/authUtils';
 
 export const prepareHeadersWithAuth = (
   headers: Headers,
   authorizationHeader: AuthorizationHeader,
 ): Headers => {
-  const auth: Token | null = getAuthToken() ?? null;
+  const token = AuthUtils.getAuthToken();
 
-  if (auth) {
-    headers.set('Authorization', `${authorizationHeader} ${auth.id_token}`);
+  if (token) {
+    headers.set('Authorization', `${authorizationHeader} ${token.jhi_token}`);
   }
   headers.set('Content-Type', ContentTypeHeader.JSON);
   return headers;
@@ -40,15 +41,35 @@ export const handleApiResponse = async (
   const newToken = result?.meta?.response?.headers.get('x-new-token');
 
   if (newToken) {
-    setAuthToken({ id_token: newToken });
+    AuthUtils.setAuthToken({ jhi_token: newToken });
   }
 
-  if (
-    result.error?.status === 401 &&
-    result.error?.data?.detail !== 'Bad credentials'
-  ) {
-    store.dispatch(setTokenExpired());
-    await api.dispatch(logoutThunk(false));
+  if (result.error) {
+    store.dispatch(setSnackbarSeverity('error'));
+    store.dispatch(setSnackbarText(result.error.error));
+    store.dispatch(setOpenSnackbar());
+    return result;
+  }
+
+  switch (result.meta.response.status) {
+    case 200:
+    case 201:
+      store.dispatch(setSnackbarSeverity('success'));
+      store.dispatch(setSnackbarText(result.meta.response.statusText));
+      store.dispatch(setOpenSnackbar());
+      break;
+    case 401:
+      store.dispatch(setSnackbarSeverity('error'));
+      store.dispatch(setSnackbarText(result.meta.response.statusText));
+      store.dispatch(setOpenSnackbar());
+      store.dispatch(setTokenExpired());
+      await api.dispatch(logoutThunk(false));
+      break;
+    default:
+      store.dispatch(setSnackbarSeverity('error'));
+      store.dispatch(setSnackbarText(result.meta.response.statusText));
+      store.dispatch(setOpenSnackbar());
+      break;
   }
 
   return result;

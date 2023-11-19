@@ -1,17 +1,25 @@
-import { Token } from '../../domain/models/token';
+import { LocalStorageKeys } from '../../domain/enums/localStorage';
 
-export const AUTH_TOKEN = 'AUTH_TOKEN';
+class LocalStorage {
+  static setLocalStorageItem = (
+    localStorageKey: LocalStorageKeys,
+    data: unknown,
+  ): void => {
+    return localStorage.setItem(localStorageKey, JSON.stringify(data));
+  };
 
-export const setAuthToken = (token: Token): void => {
-  localStorage.setItem(AUTH_TOKEN, JSON.stringify(token));
-};
-export const getAuthToken = (): Token | undefined => {
-  const token = localStorage.getItem(AUTH_TOKEN);
-  return token ? (JSON.parse(token) as Token) : undefined;
-};
-export const removeAuthToken = (): void => {
-  localStorage.removeItem(AUTH_TOKEN);
-};
-export const cleanAsyncStorage = (): void => {
-  localStorage.clear();
-};
+  static getLocalStorageItem = (key: LocalStorageKeys): unknown => {
+    const item = localStorage.getItem(key) ?? '';
+    return JSON.parse(item);
+  };
+
+  static removeLocalStorageItem = (key: LocalStorageKeys): void => {
+    return localStorage.removeItem(key);
+  };
+
+  static clearLocalStorage = (): void => {
+    localStorage.clear();
+  };
+}
+
+export default LocalStorage;
