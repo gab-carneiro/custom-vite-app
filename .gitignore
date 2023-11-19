@@ -24,8 +24,8 @@ dist-ssr
 *.sw?
 
 
-eslint-report.json
 /.scannerwork
-sonar-project.properties
 .vscode
-.env
+eslint-report.json
+# sonar-project.properties
+# .env
