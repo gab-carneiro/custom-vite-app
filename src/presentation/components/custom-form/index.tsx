@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -21,10 +21,6 @@ const CustomForm: React.FC<CustomFormProps> = ({
     resolver: yupResolver(schema),
     mode: 'all',
   });
-  useEffect(() => {
-    console.log(methods);
-  }, [methods]);
-
   return (
     <FormProvider {...methods}>
       <Form
