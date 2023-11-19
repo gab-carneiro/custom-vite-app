@@ -6,7 +6,7 @@
     "url": "https://github.com/gab-carneiro/custom-vite-app"
   },
   "main": "./src/presentation/common/root-container/index.tsx",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "keywords": [
     "vite",
