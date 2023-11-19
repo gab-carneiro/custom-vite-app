@@ -99,7 +99,7 @@
 <li><b>presentation/components/custom-button</b></li>
 <li><b>presentation/components/custom-form</b></li>
 <li><b>presentation/components/custom-header</b></li>
-<li><b>presentation/components/custom-input</b></li> // upgrade to receive mask
+<li><b>presentation/components/custom-input</b></li>
 <li><b>presentation/components/custom-screen</b></li>
 <li><b>presentation/components/custom-text</b></li>
 <li><b>presentation/components/loading-container</b></li>
